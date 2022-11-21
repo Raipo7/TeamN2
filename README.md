@@ -1,1 +1,1 @@
-[![codecov](https://codecov.io/gh/miz14/Test/branch/Vlad/graph/badge.svg?token=Y3K8ZKZupw)](https://codecov.io/gh/miz14/Test)
+[![codecov](https://codecov.io/gh/Raipo7/TeamN2/branch/Vlad/graph/badge.svg?token=Y8ZFLNSQH8)](https://codecov.io/gh/Raipo7/TeamN2)

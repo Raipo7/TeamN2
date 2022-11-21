@@ -1,8 +1,6 @@
 name: dotnet package
  
 on:
-  push:
-    branches: ["main", "Vlad"]
   pull_request:
     branches: ["main"]
  
