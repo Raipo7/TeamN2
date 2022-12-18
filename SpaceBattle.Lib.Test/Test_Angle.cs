@@ -5,7 +5,7 @@ using Moq;
 public class TestAngle
 {
     [Fact]
-    public void AngleNOD()
+    private void AngleNOD()
     {
         Assert.Equal(Angle.NOD(6, 0), 6);
         Assert.Equal(Angle.NOD(0, 6), 6);
