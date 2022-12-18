@@ -3,7 +3,7 @@ namespace SpaceBattle.Lib;
 public class Angle
 {
     public int numerator, denominator;
-    public static int NOD(int a, int b)
+    private static int NOD(int a, int b)
     {
         if (b == 0)
         {
