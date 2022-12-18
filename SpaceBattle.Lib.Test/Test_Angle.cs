@@ -5,14 +5,6 @@ using Moq;
 public class TestAngle
 {
     [Fact]
-    private void AngleNOD()
-    {
-        Assert.Equal(Angle.NOD(6, 0), 6);
-        Assert.Equal(Angle.NOD(0, 6), 6);
-        Assert.Equal(Angle.NOD(2, 2), 2);
-        Assert.Equal(Angle.NOD(-4, -2), 2);
-    }
-    [Fact]
     public void AngleConstructorZeroDenominator()
     {
         Assert.Throws<System.Exception>(() => new Angle(1, 0));
