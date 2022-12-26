@@ -1,27 +1,25 @@
 name: dotnet CI
- 
+
 on:
   workflow_dispatch:
  
 jobs:
   build:
- 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['6.0.x' ]
  
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 6.x
+          dotnet-version: 6.0.x
       - name: Install dependencies
         run: dotnet restore ./SpaceBattle.Lib
       - name: Build
         run: dotnet build ./SpaceBattle.Lib --configuration Release --no-restore
       - name: Test
-        run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=./coverage/coverage.opencover.xml -p:CoverletOutputFormat=opencover --no-build --verbosity d ./SpaceBattle.Lib.Test
+        run: dotnet test --no-build --verbosity d -p:CollectCoverage=true -p:CoverletOutput=./coverage/coverage.opencover.xml -p:CoverletOutputFormat=opencover
       - name: Codecov
         uses: codecov/codecov-action@v3
+        with: 
+          files: SpaceBattle.Lib.Test/coverage.xml
