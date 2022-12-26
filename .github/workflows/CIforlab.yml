@@ -1,4 +1,4 @@
-name: dotnet CI
+name: dotnet test
 
 on:
   workflow_dispatch:
