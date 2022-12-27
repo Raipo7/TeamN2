@@ -2,20 +2,20 @@
 <CoverageSession>
   <Summary numSequencePoints="188" visitedSequencePoints="188" numBranchPoints="44" visitedBranchPoints="44" sequenceCoverage="100" branchCoverage="100" maxCyclomaticComplexity="62" minCyclomaticComplexity="62" visitedClasses="9" numClasses="9" visitedMethods="30" numMethods="30" />
   <Modules>
-    <Module hash="34A3DAB4-0140-4C0B-BE28-386C34661708">
+    <Module hash="4B35758D-F9B0-46CB-8652-163F555251C6">
       <ModulePath>SpaceBattle.Lib.dll</ModulePath>
-      <ModuleTime>2022-12-27T07:08:51</ModuleTime>
+      <ModuleTime>2022-12-27T07:19:58</ModuleTime>
       <ModuleName>SpaceBattle.Lib</ModuleName>
       <Files>
-        <File uid="1" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/EmptyCommand.cs" />
-        <File uid="2" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Move/EndMoveCommand.cs" />
-        <File uid="3" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Move/MoveCommand.cs" />
-        <File uid="4" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Move/RepeatCommand.cs" />
-        <File uid="5" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Move/StartMoveCommand.cs" />
-        <File uid="6" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/QueuePushCommand.cs" />
-        <File uid="7" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Rotate/RotateCommand.cs" />
-        <File uid="8" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Structures/Angle.cs" />
-        <File uid="9" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/Structures/Vector.cs" />
+        <File uid="1" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/EmptyCommand.cs" />
+        <File uid="2" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Move/EndMoveCommand.cs" />
+        <File uid="3" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Move/MoveCommand.cs" />
+        <File uid="4" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Move/RepeatCommand.cs" />
+        <File uid="5" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Move/StartMoveCommand.cs" />
+        <File uid="6" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/QueuePushCommand.cs" />
+        <File uid="7" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Rotate/RotateCommand.cs" />
+        <File uid="8" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Structures/Angle.cs" />
+        <File uid="9" fullPath="/home/vlad/.local/share/Trash/files/TeamN2.2/SpaceBattle.Lib/Structures/Vector.cs" />
       </Files>
       <Classes>
         <Class>
