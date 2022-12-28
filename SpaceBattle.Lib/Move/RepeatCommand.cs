@@ -4,21 +4,20 @@ using Hwdtech;
 
 public class RepeatFromObjectCommand : ICommand
 {
-    IUObject obj;
-    string commandName;
+    private IUObject obj;
+    private string commandName;
+    private ICommand moveCommand;
 
     public RepeatFromObjectCommand(IUObject obj, string commandName)
     {
         this.obj = obj;
         this.commandName = commandName;
+        this.moveCommand = (ICommand)obj.GetProperty(commandName);
+        obj.SetProperty(commandName, this);
     }
     public void Execute()
     {
-        ICommand command = (ICommand)obj.GetProperty(commandName);
-        if (command.GetType() != typeof(EmptyCommand))
-        {
-            command.Execute();
-            IoC.Resolve<ICommand>("Queue.PushBack", IoC.Resolve<Queue<ICommand>>("Select.Queue"), this).Execute();
-        }
+        moveCommand.Execute();
+        IoC.Resolve<ICommand>("Queue.PushBack", IoC.Resolve<Queue<ICommand>>("Select.Queue"), obj.GetProperty(commandName)).Execute();
     }
 }

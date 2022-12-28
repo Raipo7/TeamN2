@@ -13,7 +13,7 @@ public class EndMoveCommand : ICommand
     public void Execute()
     {
         obj.properties.ToList().ForEach(x => IoC.Resolve<ICommand>("Object.DeleteProperty", obj.UObject, x.Key).Execute());
-
-        IoC.Resolve<ICommand>("Object.SetProperty", obj.UObject, "MoveCommand", IoC.Resolve<ICommand>("Create.EmptyCommand")).Execute();
+        
+        IoC.Resolve<ICommand>("Object.SetProperty", obj.UObject, "RepeatMoveCommand", IoC.Resolve<ICommand>("Create.EmptyCommand")).Execute();
     }
 }

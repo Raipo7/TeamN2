@@ -69,15 +69,19 @@ public class TestRepeatMoveCommand
 
         Assert.Equal(0, queue.Count); //начало - пустая очередь
 
-        UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(moveCommand);
         new StartMoveCommand(startable.Object).Execute(); //в очередь 1 команда начала движения
+
         Assert.Equal(1, queue.Count);
 
         queue.Dequeue().Execute(); //вызов команды начала движения и у объекта появляется UObkect.GetProperty("MoveCommand")
+        UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(moveCommand);
+
         Assert.Equal(0, queue.Count);
 
-        new RepeatFromObjectCommand(startable.Object.UObject, "MoveCommand").Execute();//в очередь 1 команда повторения движения
-        queue.Dequeue().Execute(); //вызов команды повторения и ее возврат в очередь
+        RepeatFromObjectCommand repeatCommand = new RepeatFromObjectCommand(startable.Object.UObject, "MoveCommand"); //замена MoveCommand на повторяющуюся команду при инициализации
+        UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(repeatCommand);
+        repeatCommand.Execute();//в очередь 1 команда повторения движения
+        queue.Dequeue().Execute(); //вызов команды повторения
         Assert.Equal(1, queue.Count);
         queue.Dequeue().Execute();
         Assert.Equal(1, queue.Count);
@@ -89,10 +93,12 @@ public class TestRepeatMoveCommand
         endable.Setup(x => x.UObject).Returns(UObject.Object);
         endable.Setup(x => x.properties).Returns(dict);
 
-        UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(new EmptyCommand());
-
         new EndMoveCommand(endable.Object); //переназначение в объекте UObkect.GetProperty("MoveCommand") на пустую команду
+        UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(new EmptyCommand());
+        queue.Dequeue().Execute(); // при попытке вызова повторяющаейся команды отслеживается пустая и повтор останавлвается
+        Assert.Equal(1, queue.Count);
         queue.Dequeue().Execute(); // при попытке вызова повторяющаейся команды отслеживается пустая и повтор останавлвается
         Assert.Equal(0, queue.Count);
+
     }
 }
