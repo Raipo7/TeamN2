@@ -76,9 +76,8 @@ public class CollisionCheckStrategy : IStrategy
         IUObject UObject1 = (IUObject)args[0];
         IUObject UObject2 = (IUObject)args[1];
 
-        List<List<int>> treeData = IoC.Resolve<List<List<int>>>("CollisionGetData"); //получил строки
         List<int> deltas = IoC.Resolve<List<int>>("CollisionGetDeltas", UObject1, UObject2); //получил дельты
-        Dictionary<int, object> tree = IoC.Resolve<Dictionary<int, object>>("CollisionCreateTree", treeData);
+        Dictionary<int, object> tree = IoC.Resolve<Dictionary<int, object>>("CollisionGetTree");
         return IoC.Resolve<bool>("CollisionTreeSolution", tree, deltas);
     }
 

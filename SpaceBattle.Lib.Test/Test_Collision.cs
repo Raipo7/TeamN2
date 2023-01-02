@@ -27,6 +27,12 @@ public class TestCollision
         {
             return new CollisionTreeSolutionStrategy().Execute(args);
         }).Execute();
+
+        IoC.Resolve<ICommand>("IoC.Register", "CollisionGetTree", (object[] args) =>
+        {
+            List<List<int>> treeData = IoC.Resolve<List<List<int>>>("CollisionGetData");
+            return IoC.Resolve<Dictionary<int, object>>("CollisionCreateTree", treeData);
+        }).Execute();
         IoC.Resolve<ICommand>("IoC.Register", "CollisionCheck", (object[] args) =>
         {
             return new CollisionCheckStrategy().Execute(args);
