@@ -2,9 +2,9 @@
 <CoverageSession>
   <Summary numSequencePoints="197" visitedSequencePoints="197" numBranchPoints="46" visitedBranchPoints="46" sequenceCoverage="100" branchCoverage="100" maxCyclomaticComplexity="65" minCyclomaticComplexity="65" visitedClasses="10" numClasses="10" visitedMethods="31" numMethods="31" />
   <Modules>
-    <Module hash="D3508D60-B18A-4BF1-9C1A-25652D8CA45C">
+    <Module hash="5F028D0E-E917-4D1B-90EA-BB559CCB7A1D">
       <ModulePath>SpaceBattle.Lib.dll</ModulePath>
-      <ModuleTime>2023-01-02T05:45:34</ModuleTime>
+      <ModuleTime>2023-01-03T12:40:42</ModuleTime>
       <ModuleName>SpaceBattle.Lib</ModuleName>
       <Files>
         <File uid="1" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/CollisionTreeFromFile.cs" />
