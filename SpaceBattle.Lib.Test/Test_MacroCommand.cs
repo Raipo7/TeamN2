@@ -5,14 +5,16 @@ using Xunit;
 using Moq;
 using Hwdtech;
 
-public class TestMacroCommand {
-    public TestMacroCommand() {
+public class TestMacroCommand
+{
+    public TestMacroCommand()
+    {
         new Hwdtech.Ioc.InitScopeBasedIoCImplementationCommand().Execute();
         IoC.Resolve<ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
         IoC.Resolve<ICommand>("IoC.Register", "Object.MoveAndRotate.Get.CommandsName", (object[] args) =>
         {
-            return new List<string>() {"MoveCommand", "RotateCommand"};
+            return new List<string>() { "MoveCommand", "RotateCommand" };
         }).Execute();
 
         IoC.Resolve<ICommand>("IoC.Register", "Create.MacroCommand", (object[] args) =>
@@ -22,7 +24,8 @@ public class TestMacroCommand {
 
     }
     [Fact]
-    public void MacroCommandTestPositive() {
+    public void MacroCommandTestPositive()
+    {
         Mock<IUObject> UObject = new Mock<IUObject>();
         UObject.Setup(x => x.GetProperty("Position")).Returns(new Vector(0, 0));
         UObject.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 1));
