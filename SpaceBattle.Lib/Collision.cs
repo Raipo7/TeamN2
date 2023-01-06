@@ -53,11 +53,11 @@ public class CollisionTreeSolutionStrategy : IStrategy
 
         Dictionary<int, object> step = tree;
 
-        for (int i = 0; i < deltas.Count() - 1; i++)
+        foreach (int delta in deltas)
         {
-            if (step.ContainsKey(deltas[i]))
+            if (step.ContainsKey(delta))
             {
-                step = (Dictionary<int, object>)step[deltas[i]];
+                step = (Dictionary<int, object>)step[delta];
             }
             else
             {
