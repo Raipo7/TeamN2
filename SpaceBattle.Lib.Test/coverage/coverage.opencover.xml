@@ -2,9 +2,9 @@
 <CoverageSession>
   <Summary numSequencePoints="199" visitedSequencePoints="199" numBranchPoints="42" visitedBranchPoints="42" sequenceCoverage="100" branchCoverage="100" maxCyclomaticComplexity="64" minCyclomaticComplexity="64" visitedClasses="11" numClasses="11" visitedMethods="33" numMethods="33" />
   <Modules>
-    <Module hash="4918C41F-6B13-469A-82F1-1FEE654BCA50">
+    <Module hash="A943C8F4-A6F6-42DA-9FC7-EEA2839C3C13">
       <ModulePath>SpaceBattle.Lib.dll</ModulePath>
-      <ModuleTime>2023-01-06T09:35:56</ModuleTime>
+      <ModuleTime>2023-01-06T09:43:16</ModuleTime>
       <ModuleName>SpaceBattle.Lib</ModuleName>
       <Files>
         <File uid="1" fullPath="/home/vlad/Рабочий стол/Создать папку/TeamN2/SpaceBattle.Lib/EmptyCommand.cs" />
