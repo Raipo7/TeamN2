@@ -40,11 +40,23 @@ public class TestExceptionFindHandler {
         Assert.Equal(strategy.Execute(), "it's strategy");
     }
     [Fact]
-    public void ExceptionFindHandlerTestNegative() {
+    public void ExceptionFindHandlerStepCommandTestNegative() {
         Mock<SpaceBattle.Lib.ICommand> mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
         mockCommand.Setup(x => x.GetHashCode()).Returns(33333);
         Mock<System.Exception> mockException = new Mock<System.Exception>();
-        mockException.Setup(x => x.GetHashCode()).Returns(44444);
+        mockException.Setup(x => x.GetHashCode()).Returns(22222);
+
+        IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, mockException.Object);
+        
+
+        Assert.Equal(strategy.Execute(), "it's default strategy");
+    }
+    [Fact]
+    public void ExceptionFindHandlerStepExceptionTestNegative() {
+        Mock<SpaceBattle.Lib.ICommand> mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
+        mockCommand.Setup(x => x.GetHashCode()).Returns(11111);
+        Mock<System.Exception> mockException = new Mock<System.Exception>();
+        mockException.Setup(x => x.GetHashCode()).Returns(33333);
 
         IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, mockException.Object);
         
