@@ -20,7 +20,6 @@ public class CreateMacroCommandStategy : IStrategy
     public object Execute(params object[] args)
     {
         IUObject UObject = (IUObject)args[0];
-        //List<string> properties = (List<string>)args.Skip(1).ToList().Cast<string>();
         string macroName = (string)args[1] + ".Get.CommandsName";
         List<string> commandsName = IoC.Resolve<List<string>>(macroName);
         List<ICommand> commands = new();
