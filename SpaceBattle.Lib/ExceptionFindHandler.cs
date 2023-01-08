@@ -1,8 +1,10 @@
 namespace SpaceBattle.Lib;
 using Hwdtech;
 
-public class ExceptionFindHandlerStrategy : IStrategy {
-    public object Execute(params object[] args) {
+public class ExceptionFindHandlerStrategy : IStrategy
+{
+    public object Execute(params object[] args)
+    {
         ICommand command = (ICommand)args[0];
         Exception exception = (Exception)args[1];
 
@@ -12,8 +14,8 @@ public class ExceptionFindHandlerStrategy : IStrategy {
 
         if (exceptionTree.ContainsKey(commandHash)) //в дереве нашлась команда
         {
-            if(exceptionTree[commandHash].ContainsKey(exceptionHash)) //в дереве нашлась ошибка
-            { 
+            if (exceptionTree[commandHash].ContainsKey(exceptionHash)) //в дереве нашлась ошибка
+            {
                 return exceptionTree[commandHash][exceptionHash];
             }
         }
