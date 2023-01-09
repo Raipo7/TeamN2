@@ -10,7 +10,7 @@ public class ExceptionFindHandlerStrategy : IStrategy
 
         int commandHash = command.GetType().GetHashCode();
         int exceptionHash = exception.GetType().GetHashCode();
-        
+
         Dictionary<int, Dictionary<int, IStrategy>> exceptionTree = IoC.Resolve<Dictionary<int, Dictionary<int, IStrategy>>>("Exception.Get.Tree");
 
         Dictionary<int, IStrategy> exceptionSubTree;
@@ -19,10 +19,10 @@ public class ExceptionFindHandlerStrategy : IStrategy
         {
             exceptionSubTree = IoC.Resolve<Dictionary<int, IStrategy>>("Exception.Get.NotFoundCommandSubTree");
         }
-        
+
         IStrategy exceptionHandler;
 
-        if (!exceptionSubTree.TryGetValue(exceptionHash, out exceptionHandler)) 
+        if (!exceptionSubTree.TryGetValue(exceptionHash, out exceptionHandler))
         {
             return IoC.Resolve<IStrategy>("Exception.Get.NotFoundExcepetionHandler");
         }
