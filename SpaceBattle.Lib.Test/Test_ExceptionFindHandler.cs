@@ -15,57 +15,56 @@ public class TestExceptionFindHandler
         Mock<IStrategy> mockStrategy = new Mock<IStrategy>();
         mockStrategy.Setup(x => x.Execute()).Returns("it's strategy");
 
-        Mock<IStrategy> mockDefaultStrategy = new Mock<IStrategy>();
-        mockDefaultStrategy.Setup(x => x.Execute()).Returns("it's default strategy");
+        Mock<IStrategy> mockNotCommandStrategy = new Mock<IStrategy>();
+        mockNotCommandStrategy.Setup(x => x.Execute()).Returns("it's not found command strategy");
 
-        Dictionary<int, Dictionary<int, IStrategy>> dict = new() { { 11111, new Dictionary<int, IStrategy>() { { 22222, mockStrategy.Object } } } };
+        Mock<IStrategy> mockNotExceptionStrategy = new Mock<IStrategy>();
+        mockNotExceptionStrategy.Setup(x => x.Execute()).Returns("it's not found exception strategy");
+
+        Dictionary<int, Dictionary<int, IStrategy>> dict = new() { { new Mock<SpaceBattle.Lib.ICommand>().Object.GetType().GetHashCode(), new Dictionary<int, IStrategy>() { { new Mock<System.Exception>().Object.GetType().GetHashCode(), mockStrategy.Object } } } };
         IoC.Resolve<ICommand>("IoC.Register", "Exception.Get.Tree", (object[] args) =>
         {
             return dict;
         }).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Exception.Get.DefaultExcepetionHandler", (object[] args) =>
+        IoC.Resolve<ICommand>("IoC.Register", "Exception.Get.NotFoundCommandSubTree", (object[] args) =>
         {
-            return mockDefaultStrategy.Object;
+            return new Dictionary<int, IStrategy>() { { new Mock<System.Exception>().Object.GetType().GetHashCode(), mockNotCommandStrategy.Object } };
+        }).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Exception.Get.NotFoundExcepetionHandler", (object[] args) =>
+        {
+            return mockNotExceptionStrategy.Object;
         }).Execute();
     }
 
     [Fact]
-    public void ExceptionFindHandlerTestPositive()
+    public void ExceptionFindHandlerFoundAllTestPositive()
     {
         Mock<SpaceBattle.Lib.ICommand> mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
-        mockCommand.Setup(x => x.GetHashCode()).Returns(11111);
         Mock<System.Exception> mockException = new Mock<System.Exception>();
-        mockException.Setup(x => x.GetHashCode()).Returns(22222);
 
         IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, mockException.Object);
-
-
         Assert.Equal(strategy.Execute(), "it's strategy");
     }
     [Fact]
-    public void ExceptionFindHandlerStepCommandTestNegative()
+    public void ExceptionFindHandlerNoTFoundCommandTestPositive()
     {
-        Mock<SpaceBattle.Lib.ICommand> mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
-        mockCommand.Setup(x => x.GetHashCode()).Returns(33333);
+        EmptyCommand emptyCommand = new EmptyCommand();
         Mock<System.Exception> mockException = new Mock<System.Exception>();
-        mockException.Setup(x => x.GetHashCode()).Returns(22222);
 
-        IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, mockException.Object);
+        IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(emptyCommand, mockException.Object);
 
 
-        Assert.Equal(strategy.Execute(), "it's default strategy");
+        Assert.Equal(strategy.Execute(), "it's not found command strategy");
     }
     [Fact]
-    public void ExceptionFindHandlerStepExceptionTestNegative()
+    public void ExceptionFindHandlerTestNegative()
     {
         Mock<SpaceBattle.Lib.ICommand> mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
-        mockCommand.Setup(x => x.GetHashCode()).Returns(11111);
-        Mock<System.Exception> mockException = new Mock<System.Exception>();
-        mockException.Setup(x => x.GetHashCode()).Returns(33333);
+        System.Exception exception = new System.Exception();
 
-        IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, mockException.Object);
+        IStrategy strategy = (IStrategy)new ExceptionFindHandlerStrategy().Execute(mockCommand.Object, exception);
 
 
-        Assert.Equal(strategy.Execute(), "it's default strategy");
+        Assert.Equal(strategy.Execute(), "it's not found exception strategy");
     }
 }

@@ -8,17 +8,24 @@ public class ExceptionFindHandlerStrategy : IStrategy
         ICommand command = (ICommand)args[0];
         Exception exception = (Exception)args[1];
 
-        int commandHash = command.GetHashCode();
-        int exceptionHash = exception.GetHashCode();
+        int commandHash = command.GetType().GetHashCode();
+        int exceptionHash = exception.GetType().GetHashCode();
+        
         Dictionary<int, Dictionary<int, IStrategy>> exceptionTree = IoC.Resolve<Dictionary<int, Dictionary<int, IStrategy>>>("Exception.Get.Tree");
 
-        if (exceptionTree.ContainsKey(commandHash)) //в дереве нашлась команда
+        Dictionary<int, IStrategy> exceptionSubTree;
+
+        if (!exceptionTree.TryGetValue(commandHash, out exceptionSubTree))
         {
-            if (exceptionTree[commandHash].ContainsKey(exceptionHash)) //в дереве нашлась ошибка
-            {
-                return exceptionTree[commandHash][exceptionHash];
-            }
+            exceptionSubTree = IoC.Resolve<Dictionary<int, IStrategy>>("Exception.Get.NotFoundCommandSubTree");
         }
-        return IoC.Resolve<IStrategy>("Exception.Get.DefaultExcepetionHandler"); //стандартный обработчик исключения
+        
+        IStrategy exceptionHandler;
+
+        if (!exceptionSubTree.TryGetValue(exceptionHash, out exceptionHandler)) 
+        {
+            return IoC.Resolve<IStrategy>("Exception.Get.NotFoundExcepetionHandler");
+        }
+        return exceptionHandler;
     }
 }
