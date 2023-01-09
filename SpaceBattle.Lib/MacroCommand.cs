@@ -3,14 +3,17 @@ namespace SpaceBattle.Lib;
 using Hwdtech;
 public class MacroCommand : ICommand
 {
-    public List<ICommand> commands;
-    public MacroCommand(List<ICommand> commands)
+    public IEnumerable<ICommand> commands;
+    public MacroCommand(IEnumerable<ICommand> commands)
     {
         this.commands = commands;
     }
     public void Execute()
     {
-        commands.ForEach(x => x.Execute());
+        foreach (ICommand command in commands)
+        {
+            command.Execute();
+        }
     }
 }
 
@@ -23,7 +26,10 @@ public class CreateMacroCommandStategy : IStrategy
         string macroName = (string)args[1] + ".Get.CommandsName";
         List<string> commandsName = IoC.Resolve<List<string>>(macroName);
         List<ICommand> commands = new();
-        commandsName.ForEach(x => commands.Add((ICommand)UObject.GetProperty(x)));
+        commandsName.ForEach(x => commands.Add
+        (
+            IoC.Resolve<ICommand>("Create." + x, UObject)
+        ));
 
         return new MacroCommand(commands);
     }
