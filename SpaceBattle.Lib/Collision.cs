@@ -68,17 +68,32 @@ public class CollisionTreeSolutionStrategy : IStrategy
     }
 }
 
+public class CollisionCheckCommand : ICommand
+{
+    private IUObject UObject1;
+    private IUObject UObject2;
+    public CollisionCheckCommand(IUObject UObject1, IUObject UObject2)
+    {
+        this.UObject1 = UObject1;
+        this.UObject2 = UObject2;
+    }
+    public void Execute()
+    {
+        List<int> deltas = IoC.Resolve<List<int>>("CollisionGetDeltas", UObject1, UObject2);
+        Dictionary<int, object> tree = IoC.Resolve<Dictionary<int, object>>("CollisionGetTree");
+        if (IoC.Resolve<bool>("CollisionTreeSolution", tree, deltas))
+        {
+            throw new Exception();
+        }
+    }
+}
+
 public class CollisionCheckStrategy : IStrategy
 {
-
     public object Execute(params object[] args)
     {
         IUObject UObject1 = (IUObject)args[0];
         IUObject UObject2 = (IUObject)args[1];
-
-        List<int> deltas = IoC.Resolve<List<int>>("CollisionGetDeltas", UObject1, UObject2); //получил дельты
-        Dictionary<int, object> tree = IoC.Resolve<Dictionary<int, object>>("CollisionGetTree");
-        return IoC.Resolve<bool>("CollisionTreeSolution", tree, deltas);
+        return new CollisionCheckCommand(UObject1, UObject2);
     }
-
 }

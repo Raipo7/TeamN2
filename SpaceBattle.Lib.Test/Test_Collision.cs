@@ -75,9 +75,7 @@ public class TestCollision
         UObject1.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 1));
         UObject2.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 2));
 
-        bool collisionStatus = IoC.Resolve<bool>("CollisionCheck", UObject1.Object, UObject2.Object);
-
-        Assert.Equal(collisionStatus, true);
+        Assert.Throws<System.Exception>(() => IoC.Resolve<SpaceBattle.Lib.ICommand>("CollisionCheck", UObject1.Object, UObject2.Object).Execute());
 
     }
     [Fact]
@@ -91,9 +89,6 @@ public class TestCollision
         UObject1.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 1));
         UObject2.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 2));
 
-        bool collisionStatus = IoC.Resolve<bool>("CollisionCheck", UObject1.Object, UObject2.Object);
-
-        Assert.Equal(collisionStatus, false);
-
+        IoC.Resolve<SpaceBattle.Lib.ICommand>("CollisionCheck", UObject1.Object, UObject2.Object).Execute();
     }
 }
