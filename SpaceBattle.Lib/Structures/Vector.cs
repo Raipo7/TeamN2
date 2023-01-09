@@ -2,7 +2,7 @@ namespace SpaceBattle.Lib;
 
 public class Vector
 {
-    private int[] cords;
+    public int[] cords {get; private set;}
 
     public Vector(params int[] nums)
     {
