@@ -13,14 +13,15 @@ public class ExceptionFindHandlerStrategy : IStrategy
 
         Dictionary<int, Dictionary<int, IStrategy>> exceptionTree = IoC.Resolve<Dictionary<int, Dictionary<int, IStrategy>>>("Exception.Get.Tree");
 
-        Dictionary<int, IStrategy> exceptionSubTree;
+        Dictionary<int, IStrategy>? exceptionSubTree;
 
         if (!exceptionTree.TryGetValue(commandHash, out exceptionSubTree))
         {
+
             exceptionSubTree = IoC.Resolve<Dictionary<int, IStrategy>>("Exception.Get.NotFoundCommandSubTree");
         }
 
-        IStrategy exceptionHandler;
+        IStrategy? exceptionHandler;
 
         if (!exceptionSubTree.TryGetValue(exceptionHash, out exceptionHandler))
         {
