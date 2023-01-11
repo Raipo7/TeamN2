@@ -4,7 +4,7 @@ using Xunit;
 using System.Collections.Generic;
 using Moq;
 
-public class Test_ExceptionTreeAddHandler 
+public class Test_ExceptionTreeAddHandler
 {
     public Test_ExceptionTreeAddHandler()
     {
