@@ -1,5 +1,6 @@
 namespace SpaceBattle.Lib.Test;
 using Hwdtech;
+//using SpaceBattle.Lib;
 using Moq;
 using Xunit;
 using System.Collections.Generic;
@@ -67,5 +68,4 @@ public class TestExceptionFindHandler
 
         Assert.Equal(strategy.Execute(), "it's not found exception strategy");
     }
-
 }
