@@ -3,12 +3,9 @@ using Hwdtech;
 
 public class BuildContinuosOperationStrategy : IStrategy 
 {
-    string ? dependencyName;
-    IUObject ? obj;
-
     public object Execute(params object[] args){
-        dependencyName = (string)args[0];
-        obj = (IUObject)args[1];
+        string dependencyName = (string)args[0];
+        IUObject obj = (IUObject)args[1];
 
         List <ICommand> commandsList = new List <ICommand>(); 
         ICommand macroCommand = IoC.Resolve<ICommand>("MacroCommandCreate", dependencyName, obj);
