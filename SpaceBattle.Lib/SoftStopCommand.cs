@@ -13,7 +13,6 @@ public class SoftStopCommand : ICommand
     }
     public void Execute()
     {
-        //ICommand hardStopCommand = IoC.Resolve<ICommand>("HardStopCommand", serverThread);
-        IoC.Resolve<ICommand>("SendCommand", queue, IoC.Resolve<ICommand>("HardStopCommand", serverThread));
+        IoC.Resolve<ICommand>("SendCommand", queue, IoC.Resolve<ICommand>("HardStopCommand", serverThread)).Execute();
     }
 }

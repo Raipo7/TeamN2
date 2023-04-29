@@ -11,7 +11,7 @@ public class StartServerThreadCommand : ICommand
 
     public void Execute()
     {
-        var thread = (Thread)serverThread.Execute();
+        Thread thread = (Thread)serverThread.Execute();
         thread.Start();
     }
 }

@@ -4,20 +4,26 @@ using System.Collections.Concurrent;
 
 public class ServerThreadStrategy : IStrategy
 {
-    private IStrategy strategy;
+    private Action strategy;
     private BlockingCollection<ICommand> commandQueue;
     private Thread currentThread;
-    private bool isRunning;
+    private bool isRunning = true;
 
-    public ServerThreadStrategy(IStrategy strategy, BlockingCollection<ICommand> commandQueue)
-    {
-        this.strategy = strategy;
+    public ServerThreadStrategy(BlockingCollection<ICommand> commandQueue)
+    {   
         this.commandQueue = commandQueue;
-        this.currentThread = new Thread(CurrentThreadExecuteCommands);
-        isRunning = true;
+        this.strategy = () => {
+            var cmd = commandQueue.Take();
+            cmd.Execute();
+        };
+        this.currentThread = new Thread(() => {
+            while(isRunning) {
+                strategy();
+                }
+        });
     }
 
-    public void ChangeBehaviour(IStrategy strategy)
+    public void ChangeBehaviour(Action strategy)
     {
         if (Thread.CurrentThread == currentThread)
         {   
@@ -25,7 +31,7 @@ public class ServerThreadStrategy : IStrategy
         }
     }
 
-    public void Stop()
+    internal void Stop()
     {
         if (Thread.CurrentThread == currentThread)
         {   
@@ -36,14 +42,5 @@ public class ServerThreadStrategy : IStrategy
     public object Execute(params object[] args)
     {
         return currentThread;
-    }
-
-    private void CurrentThreadExecuteCommands()
-    {
-        while (isRunning)
-        {
-            ICommand command = (ICommand)strategy.Execute(commandQueue);
-            command.Execute();
-        }
     }
 }
