@@ -147,6 +147,7 @@ _TeamCity*
 #coverage*.json
 #coverage*.xml
 #overage*.info
+coverage/
 
 # Visual Studio code coverage results
 *.coverage
