@@ -18,28 +18,25 @@ public class ServerThread {
     IReceiver queue;
 
     Action strategy;
-    // public Action defaultStrategy;
 
-    public ServerThread(IReceiver receiver) { //
+    public ServerThread(IReceiver receiver) { 
         this.queue = receiver;
 
-        this.strategy = () => {};
-        // this.defaultStrategy = () => {
-        //     DefaultHandleCommand();
-        // };
+        this.strategy = () => {
+            HandleCommand();
+        };
+
         thread = new Thread(() => {
             while(!stop) {
                 strategy();
-                DefaultHandleCommand();// defaultStrategy();
             }
         });
     }
-
-    public void Start() {//
+    public void Start() {
         thread.Start();
     }
 
-    public void Stop() {//
+    public void Stop() {
         stop = true;
     }
 
@@ -50,15 +47,12 @@ public class ServerThread {
     public bool ThreadEqual(Thread secondThread) {
         return this.thread == secondThread;
     }
-    internal void UpdateBehaviour(Action newBehaviour) {//
+    internal void UpdateBehaviour(Action newBehaviour) {
         strategy = newBehaviour;
     }
-    // internal void UpdateDefaultBehaviour(Action newBehaviour) {//
-    //     defaultStrategy = newBehaviour;
-    // }
-    internal void DefaultHandleCommand() {
+
+    internal void HandleCommand() {
         var cmd = queue.Receive();
-        
         try {
             cmd.Execute();
         }
@@ -71,6 +65,16 @@ public class ServerThread {
     }
 }
 
+public class ActionCommand : ICommand {
+    Action action;
+
+    public ActionCommand(Action action) {
+        this.action = action;
+    }
+    public void Execute() {
+        this.action();
+    }
+}
 public class ThreadStopCommand : ICommand {
     
     ServerThread thread;
@@ -101,7 +105,7 @@ public class ThreadHardStopCommand : ICommand {
         this.action = action;
     }
     public void Execute() {
-        var thread = IoC.Resolve<ServerThread>("Threads.GetThreadById", threadId);
+        var thread = IoC.Resolve<ServerThread>("Thread.GetThreadById", threadId);
         new ThreadStopCommand(thread).Execute();
         action();
     }
@@ -117,16 +121,18 @@ public class ThreadSoftStopCommand : ICommand {
     }
     public ThreadSoftStopCommand(string threadId, Action action) {
         this.threadId = threadId;
+        this.action = action;
     }
     public void Execute() {
 
-        var thread = IoC.Resolve<ServerThread>("Threads.GetThreadById", threadId);
+        var thread = IoC.Resolve<ServerThread>("Thread.GetThreadById", threadId);
         new UpdateBehaviourCommand(thread, () => {
+            
             if(!thread.ThreadIsEmpty()) {
-                thread.DefaultHandleCommand();
+                thread.HandleCommand();
             }
             else {
-                IoC.Resolve<ICommand>("Threads.SendCommand", threadId, IoC.Resolve<ICommand>("Threads.HardStopTheThread", threadId));
+                IoC.Resolve<ICommand>("Thread.SendCommand", threadId, IoC.Resolve<ICommand>("Thread.HardStopTheThread", threadId)).Execute();
             }
         }).Execute();
         action();
@@ -175,7 +181,7 @@ public class SenderAdapter : ISender {
     }
 
     public void Send(object message) {
-        queue.Add(IoC.Resolve<ICommand>("Threads.Sender.MessageToCommand", message));
+        queue.Add(IoC.Resolve<ICommand>("Thread.Sender.MessageToCommand", message));
     }
 }
 
@@ -186,7 +192,7 @@ public class SendCommand : ICommand {
     IEnumerable<ICommand> commandsList;
 
     public SendCommand(string threadId, IEnumerable<ICommand> commandsList) {
-        this.sender = IoC.Resolve<ISender>("Threads.GetSenderById", threadId);
+        this.sender = IoC.Resolve<ISender>("Thread.GetSenderById", threadId);
 
         this.commandsList = commandsList;
     }
