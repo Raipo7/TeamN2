@@ -63,30 +63,30 @@ public class TestRepeatMoveCommand
         movable.Setup(x => x.Position).Returns(new Vector(It.IsAny<int>(), It.IsAny<int>()));
         movable.Setup(x => x.Velocity).Returns(new Vector(It.IsAny<int>(), It.IsAny<int>()));
         MoveCommand moveCommand = new MoveCommand(movable.Object);
-        Assert.Equal(moveCommand.GetType(), typeof(MoveCommand));
+        Assert.Equal(typeof(MoveCommand), moveCommand.GetType());
         startable.Setup(x => x.properties).Returns(dict);
 
 
-        Assert.Equal(0, queue.Count); //начало - пустая очередь
+        Assert.Empty(queue); //начало - пустая очередь
 
         new StartMoveCommand(startable.Object).Execute(); //в очередь 1 команда начала движения
 
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
 
         queue.Dequeue().Execute(); //вызов команды начала движения и у объекта появляется UObkect.GetProperty("MoveCommand")
         UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(moveCommand);
 
-        Assert.Equal(0, queue.Count);
+        Assert.Empty(queue);
 
         RepeatFromObjectCommand repeatCommand = new RepeatFromObjectCommand(startable.Object.UObject, "MoveCommand"); //замена MoveCommand на повторяющуюся команду при инициализации
         UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(repeatCommand);
         repeatCommand.Execute();//в очередь 1 команда повторения движения
         queue.Dequeue().Execute(); //вызов команды повторения
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
         queue.Dequeue().Execute();
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
         queue.Dequeue().Execute();
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
 
 
         Mock<ICommandEnbable> endable = new Mock<ICommandEnbable>();
@@ -96,9 +96,9 @@ public class TestRepeatMoveCommand
         new EndMoveCommand(endable.Object); //переназначение в объекте UObkect.GetProperty("MoveCommand") на пустую команду
         UObject.Setup(x => x.GetProperty("MoveCommand")).Returns(new EmptyCommand());
         queue.Dequeue().Execute(); // при попытке вызова повторяющаейся команды отслеживается пустая и повтор останавлвается
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
         queue.Dequeue().Execute(); // при попытке вызова повторяющаейся команды отслеживается пустая и повтор останавлвается
-        Assert.Equal(0, queue.Count);
+        Assert.Empty(queue);
 
     }
 }

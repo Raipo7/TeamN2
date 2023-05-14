@@ -47,23 +47,23 @@ public class CollisionCheckFromFile
     {
 
         List<List<int>> collisionData = (List<List<int>>)new CollisionGetDataFromFileStrategy().Execute("../../../TestCol.txt");
-        Assert.Equal(collisionData[1][2], 4);
-        Assert.Equal(collisionData[1][3], 5);
+        Assert.Equal(4, collisionData[1][2]);
+        Assert.Equal(5, collisionData[1][3]);
     }
     [Fact]
     public void Testing32()
     {
         Dictionary<int, object> dict = IoC.Resolve<Dictionary<int, object>>("CollisionGetTree", "../../../TestCol.txt");
-        Assert.Equal(dict.ContainsKey(1), true);
+        Assert.True(dict.ContainsKey(1));
 
         Dictionary<int, object> dict1 = (Dictionary<int, object>)dict[1];
-        Assert.Equal(dict1.ContainsKey(2), true);
+        Assert.True(dict1.ContainsKey(2));
 
         Dictionary<int, object> dict2 = (Dictionary<int, object>)dict1[2];
-        Assert.Equal(dict2.ContainsKey(4), true);
+        Assert.True(dict2.ContainsKey(4));
 
         Dictionary<int, object> dict3 = (Dictionary<int, object>)dict2[4];
-        Assert.Equal(dict3.ContainsKey(4), true);
-        Assert.Equal(dict3.ContainsKey(5), true);
+        Assert.True(dict3.ContainsKey(4));
+        Assert.True(dict3.ContainsKey(5));
     }
 }

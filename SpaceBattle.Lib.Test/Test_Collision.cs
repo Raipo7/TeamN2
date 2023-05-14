@@ -44,8 +44,8 @@ public class TestCollision
     {
         List<List<int>> list = new() { new List<int>() { 2, 3 }, new List<int>() { 2, 4 } };
         Dictionary<int, object> b = (Dictionary<int, object>)new CollisionCreateTreeStrategy().Execute(list);
-        Assert.Equal(b.Count, 1);
-        Assert.Equal(((Dictionary<int, object>)b[2]).ContainsKey(4), true);
+        Assert.Single(b);
+        Assert.True(((Dictionary<int, object>)b[2]).ContainsKey(4));
 
     }
 
@@ -59,10 +59,10 @@ public class TestCollision
         UObject1.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 1));
         UObject2.Setup(x => x.GetProperty("Velocity")).Returns(new Vector(1, 2));
         List<int> a = (List<int>)new CollisionGetDeltasStrategy().Execute(UObject1.Object, UObject2.Object);
-        Assert.Equal(a[0], -2);
-        Assert.Equal(a[1], 1);
-        Assert.Equal(a[2], 0);
-        Assert.Equal(a[3], 1);
+        Assert.Equal(-2, a[0]);
+        Assert.Equal(1, a[1]);
+        Assert.Equal(0, a[2]);
+        Assert.Equal(1, a[3]);
     }
     [Fact]
     public void CollisionCheckTestPositive()

@@ -16,10 +16,10 @@ public class TestAngle
         Angle b = new Angle(-3, 2);
         Angle c = new Angle(3, 6);
         Angle d = new Angle(-9, 6);
-        Assert.Equal(a.ToString(), "AnglePi(1/2)");
-        Assert.Equal(b.ToString(), "AnglePi(1/2)");
-        Assert.Equal(c.ToString(), "AnglePi(1/2)");
-        Assert.Equal(d.ToString(), "AnglePi(1/2)");
+        Assert.Equal("AnglePi(1/2)", a.ToString());
+        Assert.Equal("AnglePi(1/2)", b.ToString());
+        Assert.Equal("AnglePi(1/2)", c.ToString());
+        Assert.Equal("AnglePi(1/2)", d.ToString());
     }
     [Fact]
     public void AngleEqualPositive()
