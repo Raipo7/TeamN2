@@ -28,9 +28,8 @@ public class ThreadSoftStopCommand : ICommand
             else
             {
                 var threadId = IoC.Resolve<string>("Thread.GetIdByThread", thread);
-                IoC.Resolve<ICommand>("Thread.SendCommand", threadId, IoC.Resolve<ICommand>("Thread.HardStopTheThread", threadId)).Execute();
+                IoC.Resolve<ICommand>("Thread.SendCommand", threadId, IoC.Resolve<ICommand>("Thread.HardStopTheThread", threadId, action)).Execute();
             }
         }).Execute();
-        action();
     }
 }
