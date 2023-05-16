@@ -18,7 +18,6 @@ public class ThreadHardStopCommand : ICommand
     }
     public void Execute()
     {
-        var threadId = IoC.Resolve<string>("Thread.GetIdByThread", thread);
         if (thread.ThreadEqual(Thread.CurrentThread))
         {
 
