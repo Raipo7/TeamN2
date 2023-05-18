@@ -16,7 +16,7 @@ public class StartMoveCommand : ICommand
     {
         obj.properties.ToList().ForEach(x => IoC.Resolve<ICommand>("Object.SetProperty", obj.UObject, x, x.Value).Execute());
         ICommand moveCommand = IoC.Resolve<ICommand>("Create.MoveCommand", obj.UObject);
-        IoC.Resolve<ICommand>("Object.SetProperty", obj.UObject, "MoveCommand", moveCommand);
+        IoC.Resolve<ICommand>("Object.SetProperty", obj.UObject, "MoveCommand", this);
         IoC.Resolve<ICommand>("Queue.PushBack", IoC.Resolve<Queue<ICommand>>("Select.Queue"), moveCommand).Execute();
     }
 }
