@@ -9,8 +9,7 @@ public class ServerProgram
 
         Console.WriteLine("Процедура запуска сервера...");
 
-        ConcurrentDictionary<int, object> myThreads = new ConcurrentDictionary<int, object>();
-        IoC.Resolve<ICommand>("Thread.ConsoleStartServer", numOfThread, myThreads).Execute();
+        IoC.Resolve<ICommand>("Thread.ConsoleStartServer", numOfThread).Execute();
         
         Console.WriteLine("Все потоки успешно запущены");
 
@@ -19,7 +18,7 @@ public class ServerProgram
 
         Console.WriteLine("Процедура остановки сервера...");
 
-        IoC.Resolve<ICommand>("Thread.ConsoleStopServer", myThreads).Execute();
+        IoC.Resolve<ICommand>("Thread.ConsoleStopServer").Execute();
 
         Console.WriteLine("Завершение программы. Нажмите любую клавишу для выхода...");
         Console.ReadKey();

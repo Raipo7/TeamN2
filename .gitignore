@@ -151,6 +151,9 @@ _TeamCity*
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+coverage/
+coveragereport/
+
 
 # NCrunch
 _NCrunch_*
@@ -398,3 +401,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+*.json
