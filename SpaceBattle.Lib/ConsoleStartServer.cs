@@ -12,9 +12,8 @@ public class StartServerCommand : ICommand
     public void Execute()
     {
         for (int i = 0; i < numOfThread; i++)
-        {
-            int thread_id = IoC.Resolve<int>("Thread.Create");
-            IoC.Resolve<ICommand>("Thread.Start", thread_id).Execute();
+        {   
+            IoC.Resolve<ICommand>("Thread.CreateAndStartThread").Execute();
         }
     }
 }

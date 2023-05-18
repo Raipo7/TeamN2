@@ -14,13 +14,13 @@ public class ServerProgram
         Console.WriteLine("Все потоки успешно запущены");
 
         Console.WriteLine("Нажмите любую клавишу для остановки сервера...");
-        Console.ReadKey();
+        Console.Read();
 
         Console.WriteLine("Процедура остановки сервера...");
 
         IoC.Resolve<ICommand>("Thread.ConsoleStopServer").Execute();
 
         Console.WriteLine("Завершение программы. Нажмите любую клавишу для выхода...");
-        Console.ReadKey();
+        Console.Read();
     }
 }

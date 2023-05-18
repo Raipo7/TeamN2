@@ -1,16 +1,12 @@
 namespace SpaceBattle.Lib;
 
-public class ExceptionFindHandler : ICommand
+
+public class ExceptionFindHandler : IStrategy
 {   
-    private ICommand command;
-    private Exception ex;
-    public ExceptionFindHandler(ICommand command, Exception ex)
+    public object Execute(params object[] args)
     {
-        this.command = command;
-        this.ex = ex;
-    }
-    public void Execute()
-    {
+        ICommand command = (ICommand)args[0];
+        Exception ex = (Exception)args[1];
         string logFileName = "error.log";
         string errorMessage = $"[{DateTime.Now}] Error in command '{command.GetType().Name}': {ex.Message}";
 
@@ -18,5 +14,6 @@ public class ExceptionFindHandler : ICommand
         {
             writer.WriteLine(errorMessage);
         }
+        return true;
     }
 }
