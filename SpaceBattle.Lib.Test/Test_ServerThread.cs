@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-
 public class Test_ServerThread
 {
     public string testString = "";
@@ -57,7 +56,6 @@ public class Test_ServerThread
 
         IoC.Resolve<ICommand>("IoC.Register", "Thread.CreateAndStartThread", (object[] args) =>
         {
-
             if (args.Length == 1)
             {
                 var threadId = (string)args[0];
@@ -120,7 +118,6 @@ public class Test_ServerThread
                     }
                     return (Lib.ICommand)new MacroCommand(macroCommandsList);
                 }
-
             }
             else
             {
@@ -147,14 +144,12 @@ public class Test_ServerThread
             {
                 throw new Exception();
             }
-
         }).Execute();
 
         IoC.Resolve<ICommand>("IoC.Register", "Thread.SoftStopTheThread", (object[] args) =>
         {
             if (args.Length == 1)
             {
-
                 var threadId = (string)args[0];
                 var thread = IoC.Resolve<ServerThread>("Thread.GetThreadById", threadId);
                 return new ThreadSoftStopCommand(thread);
