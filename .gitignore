@@ -154,8 +154,6 @@ _TeamCity*
 coverage/
 coveragereport/
 
-# Helper
-usingCommands
 
 # NCrunch
 _NCrunch_*
@@ -403,3 +401,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+*.json
