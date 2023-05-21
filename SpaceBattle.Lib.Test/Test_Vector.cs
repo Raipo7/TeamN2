@@ -13,7 +13,7 @@ public class TestVector
     public void VectorToString()
     {
         Vector a = new Vector(1, 2);
-        Assert.Equal(a.ToString(), "Vector(1, 2)");
+        Assert.Equal("Vector(1, 2)", a.ToString());
     }
     [Fact]
     public void VectorEqual()

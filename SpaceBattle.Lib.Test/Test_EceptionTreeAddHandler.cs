@@ -30,13 +30,13 @@ public class Test_ExceptionTreeAddHandler
 
         int treeStep1 = mockCommand.Object.GetType().GetHashCode();
         int treeStep2 = mockException1.Object.GetType().GetHashCode();
-        Assert.Equal(dict[treeStep1][treeStep2].GetType(), typeof(CollisionCheckStrategy));
+        Assert.Equal(typeof(CollisionCheckStrategy), dict[treeStep1][treeStep2].GetType());
 
 
         Mock<System.ArgumentException> mockException2 = new Mock<System.ArgumentException>();
 
         new ExceptionTreeAddHandlerCommand(mockCommand.Object, mockException2.Object, strategy).Execute();
         treeStep2 = mockException2.Object.GetType().GetHashCode();
-        Assert.Equal(dict[treeStep1][treeStep2].GetType(), typeof(CollisionCheckStrategy));
+        Assert.Equal(typeof(CollisionCheckStrategy), dict[treeStep1][treeStep2].GetType());
     }
 }
