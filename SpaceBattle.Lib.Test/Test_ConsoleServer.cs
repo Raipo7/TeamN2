@@ -88,11 +88,11 @@ public class Test_ServerStart{
         
         Assert.Contains("Процедура запуска сервера...", output);
         IoC.Resolve<SpaceBattle.Lib.ICommand>("Thread.ConsoleStartServer", numOfThread).Execute();
-        Assert.Equal(true, start);
+        Assert.True(true == start);
         Assert.Contains("Все потоки успешно запущены", output);
         Assert.Contains("Процедура остановки сервера...", output);
         IoC.Resolve<SpaceBattle.Lib.ICommand>("Thread.ConsoleStopServer").Execute();
-        Assert.Equal(true, stop);
+        Assert.True(true == stop);
         Assert.Contains("Завершение программы. Нажмите любую клавишу для выхода...", output);
     }
     [Fact]
@@ -111,6 +111,6 @@ public class Test_ServerStart{
         // Assert
         Assert.True(File.Exists(logFileName));
         string[] lines = File.ReadAllLines(logFileName);
-        Assert.True(lines[0].Contains(errorMessage));
+        Assert.True(errorMessage == lines[0]);
     }
 }
