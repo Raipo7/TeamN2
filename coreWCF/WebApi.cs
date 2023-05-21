@@ -10,7 +10,8 @@ internal class WebApi : IWebApi
     {
         try
         {
-            IoC.Resolve<SpaceBattle.Lib.ICommand>("WCF.SendMessage", param).Execute();  //7.2 - обработка сообщений
+            var threadId = IoC.Resolve<string>("Thread.GetIdByGameId", param.gameId);
+            IoC.Resolve<SpaceBattle.Lib.ICommand>("Thread.SendCommand", threadId, IoC.Resolve<SpaceBattle.Lib.ICommand>("Create.CommandByMessage", param)).Execute();  //7.2 - обработка сообщений
         }
         catch (System.Exception err)
         {
