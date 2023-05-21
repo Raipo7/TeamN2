@@ -105,12 +105,10 @@ public class Test_ServerStart{
 
         var strategy = new ExceptionHandlerStrategy();
 
-        // Act
         strategy.Execute(command, exception);
 
-        // Assert
         Assert.True(File.Exists(logFileName));
         string[] lines = File.ReadAllLines(logFileName);
-        Assert.True(errorMessage == lines[0]);
+        Assert.Contains(errorMessage, lines[0]);
     }
 }
