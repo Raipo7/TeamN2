@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Hwdtech;
-using System.Threading.Tasks;
 
 public class Test_ServerStart{
     public object globalScope;        
@@ -48,7 +47,6 @@ public class Test_ServerStart{
         }).Execute();
 
         globalScope = scope;
-        
     }
     [Fact]
     public void CreateAndStartThreadTest()
@@ -71,7 +69,7 @@ public class Test_ServerStart{
         Assert.Equal(myThreads.Count, threadsStopCount);
     }
     [Fact]
-    public void ConsoleTestAsync()
+    public void ConsoleTest()
     {
         int numOfThread = 3;
         var args = new[] { "3" }; 
@@ -81,10 +79,9 @@ public class Test_ServerStart{
         var originalOutput = Console.Out;
         Console.SetIn(consoleInput);
         Console.SetOut(consoleOutput);
-        
 
         ServerProgram.Main(args);
-        // Assert
+
         var output = consoleOutput.ToString();
         Console.SetIn(originalInput);
         Console.SetOut(originalOutput);
@@ -97,8 +94,23 @@ public class Test_ServerStart{
         IoC.Resolve<SpaceBattle.Lib.ICommand>("Thread.ConsoleStopServer").Execute();
         Assert.Equal(true, stop);
         Assert.Contains("Завершение программы. Нажмите любую клавишу для выхода...", output);
+    }
+    [Fact]
+    public void ExceptionHandlerStrategyTest()
+    {
+        SpaceBattle.Lib.ICommand command = Mock.Of<SpaceBattle.Lib.ICommand>();
+        Exception exception = new Exception("Test exception");
+        string logFileName = "error.log";
+        string errorMessage = $"Error in command '{command.GetType().Name}': {exception.Message}";
 
-        Console.SetOut(originalOutput);
-        Console.SetIn(originalInput);
+        var strategy = new ExceptionHandlerStrategy();
+
+        // Act
+        strategy.Execute(command, exception);
+
+        // Assert
+        Assert.True(File.Exists(logFileName));
+        string[] lines = File.ReadAllLines(logFileName);
+        Assert.True(lines[0].Contains(errorMessage));
     }
 }
