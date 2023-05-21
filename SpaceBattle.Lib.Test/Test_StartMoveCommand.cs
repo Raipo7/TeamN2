@@ -41,8 +41,7 @@ public class TestStartMoveCommand
     [Fact]
     public void StartMoveCommandPositive()
     {
-
-        Assert.Equal(0, queue.Count);
+        Assert.Empty(queue);
 
         Mock<ICommandStartable> startable = new Mock<ICommandStartable>();
 
@@ -54,7 +53,7 @@ public class TestStartMoveCommand
         startable.Setup(x => x.properties).Returns(dict);
 
         new StartMoveCommand(startable.Object).Execute();
-        Assert.Equal(1, queue.Count);
+        Assert.Single(queue);
 
     }
 }

@@ -11,7 +11,7 @@ public class TestRotateCommand
         rotate_mock.SetupProperty(i => i.Angle, new Angle(1, 4));
         rotate_mock.SetupGet<Angle>(i => i.AngleVelocity).Returns(new Angle(1, 2));
         new RotateCommand(rotate_mock.Object).Execute();
-        Assert.Equal(rotate_mock.Object.Angle, new Angle(3, 4));
+        Assert.Equal(new Angle(3, 4), rotate_mock.Object.Angle);
     }
     [Fact]
     public void RotateCommandTestGetAngleException()

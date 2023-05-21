@@ -11,7 +11,7 @@ public class TestMoveCommand
         move_mock.SetupProperty(i => i.Position, new Vector(12, 5));
         move_mock.SetupGet<Vector>(i => i.Velocity).Returns(new Vector(-7, 3));
         new MoveCommand(move_mock.Object).Execute();
-        Assert.Equal(move_mock.Object.Position, new Vector(5, 8));
+        Assert.Equal(new Vector(5, 8), move_mock.Object.Position);
     }
     [Fact]
     public void MoveCommandTestGetPositionExeption()
