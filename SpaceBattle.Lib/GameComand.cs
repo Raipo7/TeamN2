@@ -1,10 +1,10 @@
-namespace SpaceBattle.Lib;
-using System.Collections.Generic;
 using Hwdtech;
 using System.Diagnostics;
-public class GameCommand : ICommand {
 
-    private string gameId;
+namespace SpaceBattle.Lib;
+
+public class GameCommand : ICommand
+{
     private IReceiver receiver;
     private IDictionary<string, object> gameItems;
 
@@ -13,20 +13,35 @@ public class GameCommand : ICommand {
 
     private Stopwatch time;
 
-    public GameCommand(object scope, IReceiver receiver, string gameId) {
+    public GameCommand(object scope)
+    {
         this.scope = scope;
-        this.receiver = receiver;
-        this.gameId = gameId;
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope);
+
+        this.receiver = IoC.Resolve<IReceiver>("Game.GetReceiver");
         this.gameItems = IoC.Resolve<IDictionary<string, object>>("Game.GetItems");
         this.gameTick = IoC.Resolve<int>("Game.GetTick");
-        this.time = new Stopwatch();
+        time = new Stopwatch();
     }
-
-    public void Execute() {
+    public void Execute()
+    {
         time.Start();
-        while (time.ElapsedMilliseconds <= gameTick) {
-            receiver.Receive();
+        while (time.ElapsedMilliseconds <= gameTick)
+        {
+            if (!receiver.isEmpty())
+            {
+                var cmd = this.receiver.Receive();
+                try
+                {
+                    cmd.Execute();
+                }
+                catch (Exception err)
+                {
+                    var exceptinHandlerStrategy = IoC.Resolve<IStrategy>("Exception.FindHandlerStrategy", cmd, err);
+                    exceptinHandlerStrategy.Execute();
+                }
+            }
+            else break;
         }
         time.Reset();
     }
