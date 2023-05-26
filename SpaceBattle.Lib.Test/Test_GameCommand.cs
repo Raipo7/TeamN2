@@ -7,9 +7,7 @@ public class TestGameCommand
 {
     public object globalScope;
     public Queue<Lib.ICommand> queue;
-    public IDictionary<string, object> gameItems;
-    public int testInt = 0;
-
+    Mock<IStrategy> strategy = new Mock<IStrategy>();
     public TestGameCommand()
     {
         new Hwdtech.Ioc.InitScopeBasedIoCImplementationCommand();
@@ -22,17 +20,11 @@ public class TestGameCommand
         {
             return new QueueReceiverAdapter(queue);
         }).Execute();
-        gameItems = new Dictionary<string, object>();
-        IoC.Resolve<ICommand>("IoC.Register", "Game.GetItems", (object[] args) =>
-        {
-            return gameItems;
-        }).Execute();
         IoC.Resolve<ICommand>("IoC.Register", "Game.GetTick", (object[] args) =>
         {
             return (object)100;
         }).Execute();
-        Mock<IStrategy> strategy = new Mock<IStrategy>();
-        strategy.Setup(x => x.Execute()).Callback(() => testInt++);
+        strategy.Setup(x => x.Execute()).Verifiable();
         IoC.Resolve<ICommand>("IoC.Register", "Exception.FindHandlerStrategy", (object[] args) =>
         {
             return strategy.Object;
@@ -43,7 +35,8 @@ public class TestGameCommand
     public void FullTestGameCommand()
     {
         Lib.ICommand emptyCommand = new EmptyCommand();
-        var gameCmd = new GameCommand(globalScope);
+        var receiver = new QueueReceiverAdapter(queue);
+        var gameCmd = new GameCommand(globalScope, receiver);
         for (int i = 0; i < 20; i++)
         {
             queue.Enqueue(emptyCommand);
@@ -52,11 +45,9 @@ public class TestGameCommand
         Mock<Lib.ICommand> errorCommand = new Mock<Lib.ICommand>();
         errorCommand.Setup(x => x.Execute()).Throws<System.Exception>(() => err);
 
-        var a = IoC.Resolve<IReceiver>("Game.GetReceiver");
-
         queue.Enqueue(errorCommand.Object);
         gameCmd.Execute();
 
-        Assert.Equal(1, testInt);
+        strategy.Verify();
     }
 }
