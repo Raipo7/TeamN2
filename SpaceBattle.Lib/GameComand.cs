@@ -1,3 +1,8 @@
+using Hwdtech;
+using System.Diagnostics;
+
+namespace SpaceBattle.Lib;
+
 public class GameCommand : ICommand
 {
     private IReceiver receiver;
