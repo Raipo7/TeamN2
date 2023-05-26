@@ -1,30 +1,19 @@
-using Hwdtech;
-using System.Diagnostics;
-
-namespace SpaceBattle.Lib;
-
 public class GameCommand : ICommand
 {
     private IReceiver receiver;
-    private IDictionary<string, object> gameItems;
-
     private object scope;
-    private int gameTick;
-
     private Stopwatch time;
 
-    public GameCommand(object scope)
+    public GameCommand(object scope, IReceiver receiver)
     {
         this.scope = scope;
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope);
-
-        this.receiver = IoC.Resolve<IReceiver>("Game.GetReceiver");
-        this.gameItems = IoC.Resolve<IDictionary<string, object>>("Game.GetItems");
-        this.gameTick = IoC.Resolve<int>("Game.GetTick");
+        this.receiver = receiver;
         time = new Stopwatch();
     }
     public void Execute()
     {
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
+        var gameTick = IoC.Resolve<int>("Game.GetTick");
         time.Start();
         while (time.ElapsedMilliseconds <= gameTick)
         {
