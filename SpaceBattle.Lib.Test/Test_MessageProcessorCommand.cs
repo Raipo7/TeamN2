@@ -32,7 +32,8 @@ public class Test_MessageProcessorCommand
 
         IoC.Resolve<ICommand>("IoC.Register", "Game.Command.StartMove", (object[] args) =>
         {
-            return new ActionCommand( () => {startMoveSent++;});
+            startMoveSent++;
+            return new EmptyCommand();
         }).Execute();
 
         IoC.Resolve<ICommand>("IoC.Register", "Game.Object.SetPropertiesCommand", (object[] args) =>
@@ -51,12 +52,12 @@ public class Test_MessageProcessorCommand
         var gameId = "123";
         var gameItemId = "o123";
         var properties = new Dictionary<string, object> { { "InititalVelocity", 2 }, { "InititialHP", 50 } };
-        var messageType = "StartMove";
+        var type = "StartMove";
 
         mockMessage.SetupGet(m => m.gameId).Returns(gameId);
         mockMessage.SetupGet(m => m.gameItemId).Returns(gameItemId);
         mockMessage.SetupGet(m => m.properties).Returns(properties);
-        mockMessage.SetupGet(m => m.type).Returns(messageType);
+        mockMessage.SetupGet(m => m.type).Returns(type);
 
         var interpretationCommand = new InterpretationCommand(mockMessage.Object);
         interpretationCommand.Execute();
