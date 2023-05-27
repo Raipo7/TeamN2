@@ -103,4 +103,11 @@ public class Vector
         }
         return this_HashCode;
     }
+
+    public int this[int index]
+    {
+        get => cords[index];
+
+        set => cords[index] = value;
+    }
 }
