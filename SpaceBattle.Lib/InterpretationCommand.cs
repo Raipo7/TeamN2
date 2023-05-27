@@ -12,9 +12,11 @@ public class InterpretationCommand : ICommand
     }
 
     public void Execute(){
-        if (message.type == "StartMove") IoC.Resolve<ICommand>("Game.StartMoveCommand", IoC.Resolve<IUObject>("Game.GetObjectById", message.gameItemId), message.properties).Execute();
-        else if (message.type == "StartRotate") IoC.Resolve<ICommand>("Game.StartRotateCommand", IoC.Resolve<IUObject>("Game.GetObjectById", message.gameItemId), message.properties).Execute();
-        else if (message.type == "StopMove") IoC.Resolve<ICommand>("Game.StopMoveCommand", IoC.Resolve<IUObject>("Game.GetObjectById", message.gameItemId), message.properties).Execute();
-        else if (message.type == "Shoot") IoC.Resolve<ICommand>("Game.ShootCommand", IoC.Resolve<IUObject>("Game.GetObjectById", message.gameItemId), message.properties).Execute();
+        var obj = IoC.Resolve<IUObject>("Game.Object.GetById", message.gameItemId);
+        IoC.Resolve<ICommand>("Game.Object.SetPropertiesCommand", obj, message.properties).Execute();
+
+        var newCommand = IoC.Resolve<ICommand>("Game.Command." + message.type, obj);
+        
+        IoC.Resolve<ICommand>("Game.SendCommand", message.gameId, newCommand).Execute();
     }
 }
