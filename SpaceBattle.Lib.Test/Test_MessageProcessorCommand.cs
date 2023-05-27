@@ -10,7 +10,7 @@ public class Test_MessageProcessorCommand
 {   
     int commandsWereSent = 0;
     int startMoveSent = 0;
-    int properties = 0;
+    int propertiesWereSet = 0;
     int objectWasGet = 0;
     public Test_MessageProcessorCommand()
     {
@@ -37,7 +37,7 @@ public class Test_MessageProcessorCommand
 
         IoC.Resolve<ICommand>("IoC.Register", "Game.Object.SetPropertiesCommand", (object[] args) =>
         {
-            return new ActionCommand( () => {properties++;});
+            return new ActionCommand( () => {propertiesWereSet++;});
         }).Execute();
     }
     [Fact]
@@ -60,5 +60,10 @@ public class Test_MessageProcessorCommand
 
         var interpretationCommand = new InterpretationCommand(mockMessage.Object);
         interpretationCommand.Execute();
+
+        Assert.Equal(1, propertiesWereSet);
+        Assert.Equal(1, startMoveSent);
+        Assert.Equal(1, commandsWereSent);
+        Assert.Equal(1, objectWasGet);
     }
 }
