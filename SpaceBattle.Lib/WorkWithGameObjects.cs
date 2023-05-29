@@ -1,5 +1,4 @@
 namespace SpaceBattle.Lib;
-using Hwdtech;
 
 public class WorkWithGameObjects
 {   
