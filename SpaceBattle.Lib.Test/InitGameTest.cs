@@ -13,14 +13,13 @@ public class Test_InitGameCommand
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
         gameItemsDict = new Dictionary<string, object>();
-        // ЧАСТЬ 1. Создание пустых объектов
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.CreateEmptyObjects", (object[] args) =>
         {
             var gameObjectCount = (int)args[0];
             return new CreateObjectStrategy().Execute(gameObjectCount);
-
         }).Execute();
-        // -- Генерация id для путсых объектов
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GenerateItemsId", (object[] args) =>
         {
             var gameObjectCount = (int)args[0];
@@ -31,7 +30,7 @@ public class Test_InitGameCommand
             }
             return listItemsId;
         }).Execute();
-        // -- Создание и добавление пустого объекта в словарь по id
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.CreateItem", (object[] args) =>
         {
             return new ActionCommand(() =>
@@ -40,7 +39,7 @@ public class Test_InitGameCommand
                 gameItemsDict.Add(itemId, new Dictionary<string, object>());
             });
         }).Execute();
-        // ЧАСТЬ 2. Установка свойств для объектов
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.SetupObjectsProperties", (object[] args) =>
         {
             var itemsId = (IEnumerable<string>)args[0];
@@ -60,7 +59,7 @@ public class Test_InitGameCommand
         }).Execute();
 
         var gameIteratorDict = new Dictionary<string, object>();
-        // -- Задание начальных свойств итератору позиций
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.PosIterator.Setup", (object[] args) =>
         {
             return new ActionCommand(() =>
@@ -71,15 +70,14 @@ public class Test_InitGameCommand
                 gameIteratorDict.Add("posIterator", new GetPosIterator(startCoords, queue));
             });
         }).Execute();
-        // -- Выброс следующего значения из итератора позиций
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.PosIterator.GetNext", (object[] args) =>
         {
             var posIterator = (GetPosIterator)gameIteratorDict["posIterator"];
             posIterator.MoveNext();
             return posIterator.Current;
         }).Execute();
-
-        // -- Задание начальных свойств итератору топлива
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.FuelIterator.Setup", (object[] args) =>
         {
             return new ActionCommand(() =>
@@ -89,7 +87,7 @@ public class Test_InitGameCommand
                 gameIteratorDict.Add("fuelIterator", new GetFuelIterator(listFuel));
             });
         }).Execute();
-        // -- Выброс следующего значения из итератора топлива
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.FuelIterator.GetNext", (object[] args) =>
         {
 
@@ -97,7 +95,7 @@ public class Test_InitGameCommand
             fuelIterator.MoveNext();
             return fuelIterator.Current;
         }).Execute();
-        // -- Установка свойств игровым объектам
+        
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Items.SetProperty", (object[] args) =>
         {
             return new ActionCommand(() =>
