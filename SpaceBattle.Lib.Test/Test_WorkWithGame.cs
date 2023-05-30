@@ -20,18 +20,17 @@ public class WorkWithGameTest
     [Fact]
     public void Test_GameObjectsDeleteGet()
     {
-        var gameItemId = "item1";
+        string gameItemId = "item1";
         var obj = new object();
         var objects = new Dictionary<string, object>()
         {
             { gameItemId, obj }
         };
 
-        var workWithGameObjects = new WorkWithGameObjects(objects);
-        var result = workWithGameObjects.GameObjectGet(gameItemId);
+        var result = new GetGameObjectStrategy().Execute(objects, gameItemId);
         Assert.Equal(obj, result);
 
-        workWithGameObjects.GameObjectDelete(gameItemId);
+        new DeleteGameObjectCommand(objects, gameItemId).Execute();
         Assert.DoesNotContain(gameItemId, objects.Keys);
     }
     [Fact]
@@ -40,11 +39,10 @@ public class WorkWithGameTest
         var commandMock = new Mock<Lib.ICommand>();
         var commandQueueMock = new Mock<Queue<Lib.ICommand>>();
 
-        var workWithGameQueue = new WorkWithGameQueue(commandQueueMock.Object);
-        workWithGameQueue.GameQueuePush(commandMock.Object);
+        new GameQueuePushCommand(commandQueueMock.Object, commandMock.Object).Execute();
         Assert.True(commandQueueMock.Object.Contains(commandMock.Object));
 
-        var command = workWithGameQueue.GameQueuePop();
+        var command = new GameQueuePopStrategy().Execute(commandQueueMock.Object);
         Assert.Equal(command, commandMock.Object);
     }
 }
