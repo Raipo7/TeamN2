@@ -18,25 +18,25 @@ public class Test_AdapterBuilder
     }
     [Fact]
     public void TestOfCorrectBuildingTheAdapterWithoutVoidFunctionAndParam(){
-        string adapter = "namespace SpaceBattle.Lib;\r\n"
-        + "using Hwdtech;\r\n\r\n"
-        + "public class IReceiverAdapter : IReceiver\r\n"
-        + "{\r\n"
-        + "\tprivate object target;\r\n"
-        + "\tpublic IReceiverAdapter(object target)\r\n"
-        + "\t{\r\n"
-        + "\t\tthis.target = target;\r\n"
-        + "\t}\r\n"
-        + "\tpublic SpaceBattle.Lib.ICommand Receive()\r\n"
-        + "\t{\r\n"
-        + "\t\treturn IoC.Resolve<SpaceBattle.Lib.ICommand>(\"SpaceShip.Receive\", target);\r\n"
-        + "\t}\r\n"
-        + "\tpublic System.Boolean isEmpty()\r\n"
-        + "\t{\r\n"
-        + "\t\treturn IoC.Resolve<System.Boolean>(\"SpaceShip.isEmpty\", target);\r\n"
-        + "\t}\r\n"
-        + "}\r\n"
-        + "\r\n";
+        string adapter = "namespace SpaceBattle.Lib;\n"
+        + "using Hwdtech;\n\n"
+        + "public class IReceiverAdapter : IReceiver\n"
+        + "{\n"
+        + "\tprivate object target;\n"
+        + "\tpublic IReceiverAdapter(object target)\n"
+        + "\t{\n"
+        + "\t\tthis.target = target;\n"
+        + "\t}\n"
+        + "\tpublic SpaceBattle.Lib.ICommand Receive()\n"
+        + "\t{\n"
+        + "\t\treturn IoC.Resolve<SpaceBattle.Lib.ICommand>(\"SpaceShip.Receive\", target);\n"
+        + "\t}\n"
+        + "\tpublic System.Boolean isEmpty()\n"
+        + "\t{\n"
+        + "\t\treturn IoC.Resolve<System.Boolean>(\"SpaceShip.isEmpty\", target);\n"
+        + "\t}\n"
+        + "}\n"
+        + "\n";
 
         AdapterBuilderStrategy builder = new AdapterBuilderStrategy();
         string generatedAdapter = (string)builder.Execute(typeof(IReceiver));
@@ -45,21 +45,21 @@ public class Test_AdapterBuilder
     }
     [Fact]
     public void TestOfCorrectBuildingTheAdapterWithVoidFunctionAndParam(){
-        string adapter = "namespace SpaceBattle.Lib;\r\n"
-        + "using Hwdtech;\r\n\r\n"
-        + "public class ISenderAdapter : ISender\r\n"
-        + "{\r\n"
-        + "\tprivate object target;\r\n"
-        + "\tpublic ISenderAdapter(object target)\r\n"
-        + "\t{\r\n"
-        + "\t\tthis.target = target;\r\n"
-        + "\t}\r\n"
-        + "\tpublic System.Void Send(SpaceBattle.Lib.ICommand cmd)\r\n"
-        + "\t{\r\n"
-        + "\t\tIoC.Resolve<SpaceBattle.Lib.ICommand>(\"SpaceShip.Send\", cmd, target).Execute();\r\n"
-        + "\t}\r\n"
-        + "}\r\n"
-        + "\r\n";
+        string adapter = "namespace SpaceBattle.Lib;\n"
+        + "using Hwdtech;\n\n"
+        + "public class ISenderAdapter : ISender\n"
+        + "{\n"
+        + "\tprivate object target;\n"
+        + "\tpublic ISenderAdapter(object target)\n"
+        + "\t{\n"
+        + "\t\tthis.target = target;\n"
+        + "\t}\n"
+        + "\tpublic System.Void Send(SpaceBattle.Lib.ICommand cmd)\n"
+        + "\t{\n"
+        + "\t\tIoC.Resolve<SpaceBattle.Lib.ICommand>(\"SpaceShip.Send\", cmd, target).Execute();\n"
+        + "\t}\n"
+        + "}\n"
+        + "\n";
 
         AdapterBuilderStrategy builder = new AdapterBuilderStrategy();
         string generatedAdapter = (string)builder.Execute(typeof(ISender));
