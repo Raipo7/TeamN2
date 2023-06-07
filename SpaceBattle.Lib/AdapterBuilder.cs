@@ -26,6 +26,7 @@ public class AdapterBuilder : IAdapterBuilder
         {
             codeBuilder.AppendLine($"using {use};");
         }
+        codeBuilder.AppendLine();
         return this;
     }
     public IAdapterBuilder AddClassName()
