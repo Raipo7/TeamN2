@@ -4,24 +4,51 @@ using Hwdtech;
 using System.Reflection;
 using System.Text;
 
-public class AdapterBuilderStrategy : IStrategy
-{
-    public object Execute(params object[] args)
+public class AdapterBuilder : IAdapterBuilder
+{   
+    private Type interfaceType;
+    private StringBuilder codeBuilder;
+
+    public AdapterBuilder(Type interfaceType)
+    {
+        this.interfaceType = interfaceType;
+        codeBuilder = new StringBuilder();
+    }
+
+    public IAdapterBuilder AddNamespace(string nameSpace)
+    {
+        codeBuilder.AppendLine($"namespace {nameSpace};");
+        return this;
+    }
+    public IAdapterBuilder AddUsings(string[] usings)
     {   
-        Type interfaceType = (Type) args[0];
-        StringBuilder codeBuilder = new StringBuilder();
-        codeBuilder.AppendLine("namespace SpaceBattle.Lib;");
-        codeBuilder.AppendLine("using Hwdtech;");
-        codeBuilder.AppendLine();
+        foreach (string use in usings)
+        {
+            codeBuilder.AppendLine($"using {use};");
+        }
+        return this;
+    }
+    public IAdapterBuilder AddClassName()
+    {
         codeBuilder.AppendLine($"public class {interfaceType.Name}Adapter : {interfaceType.Name}");
         codeBuilder.AppendLine("{");
+        return this;
+    }
+    public IAdapterBuilder InitializationObject()
+    {
         codeBuilder.AppendLine("\tprivate object target;");
-
+        return this;
+    }
+    public IAdapterBuilder AddConstructor()
+    {
         codeBuilder.AppendLine($"\tpublic {interfaceType.Name}Adapter(object target)");
         codeBuilder.AppendLine("\t{");
         codeBuilder.AppendLine("\t\tthis.target = target;");
         codeBuilder.AppendLine("\t}");
-
+        return this;
+    }
+    public IAdapterBuilder AddMethods()
+    {
         MethodInfo[] methods = interfaceType.GetMethods();
         foreach (MethodInfo method in methods)
         {
@@ -36,10 +63,16 @@ public class AdapterBuilderStrategy : IStrategy
             else codeBuilder.AppendLine($"\t\treturn IoC.Resolve<{method.ReturnType}>(\"SpaceShip.{method.Name}\"{parameterList2}, target);");
             codeBuilder.AppendLine("\t}");
         }
-
+        return this;
+    }
+    public IAdapterBuilder CloseClass()
+    {
         codeBuilder.AppendLine("}");
         codeBuilder.AppendLine();
-
+        return this;
+    }
+    public string Build()
+    {
         return codeBuilder.ToString();
     }
 }

@@ -38,12 +38,19 @@ public class Test_AdapterBuilder
         + "}\n"
         + "\n";
 
-        AdapterBuilderStrategy builder = new AdapterBuilderStrategy();
-        string generatedAdapter = (string)builder.Execute(typeof(IReceiver));
+        string generatedAdapter = new AdapterBuilder(typeof(IReceiver))
+        .AddNamespace("SpaceBattle.Lib")
+        .AddUsings(new string[] {"Hwdtech"})
+        .AddClassName()
+        .AddConstructor()
+        .InitializationObject()
+        .AddMethods()
+        .CloseClass()
+        .Build();
         
         Assert.Equal(adapter, generatedAdapter);
     }
-    [Fact]
+   [Fact]
     public void TestOfCorrectBuildingTheAdapterWithVoidFunctionAndParam(){
         string adapter = "namespace SpaceBattle.Lib;\n"
         + "using Hwdtech;\n\n"
@@ -61,8 +68,15 @@ public class Test_AdapterBuilder
         + "}\n"
         + "\n";
 
-        AdapterBuilderStrategy builder = new AdapterBuilderStrategy();
-        string generatedAdapter = (string)builder.Execute(typeof(ISender));
+        string generatedAdapter = new AdapterBuilder(typeof(ISender))
+        .AddNamespace("SpaceBattle.Lib")
+        .AddUsings(new string[] {"Hwdtech"})
+        .AddClassName()
+        .AddConstructor()
+        .InitializationObject()
+        .AddMethods()
+        .CloseClass()
+        .Build();
         
         Assert.Equal(adapter, generatedAdapter);
     }
