@@ -42,8 +42,8 @@ public class Test_AdapterBuilder
         .AddNamespace("SpaceBattle.Lib")
         .AddUsings(new string[] {"Hwdtech"})
         .AddClassName()
-        .AddConstructor()
         .InitializationObject()
+        .AddConstructor()
         .AddMethods()
         .CloseClass()
         .Build();
@@ -72,8 +72,8 @@ public class Test_AdapterBuilder
         .AddNamespace("SpaceBattle.Lib")
         .AddUsings(new string[] {"Hwdtech"})
         .AddClassName()
-        .AddConstructor()
         .InitializationObject()
+        .AddConstructor()
         .AddMethods()
         .CloseClass()
         .Build();
